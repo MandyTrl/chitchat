@@ -1,21 +1,34 @@
 {
-  "name": "chitchat",
-  "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
-  },
-  "dependencies": {
-    "expo": "~50.0.14",
-    "expo-status-bar": "~1.11.1",
-    "react": "18.2.0",
-    "react-native": "0.73.6"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.0"
-  },
-  "private": true
+	"name": "chitchat",
+	"version": "1.0.0",
+	"main": "node_modules/expo/AppEntry.js",
+	"scripts": {
+		"start": "expo start",
+		"android": "expo start --android",
+		"ios": "expo start --ios",
+		"web": "expo start --web"
+	},
+	"dependencies": {
+		"expo": "~50.0.14",
+		"expo-status-bar": "~1.11.1",
+		"react": "18.2.0",
+		"react-native": "0.73.6"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.20.0",
+		"@tsconfig/react-native": "^3.0.5",
+		"@types/jest": "^29.5.12",
+		"@types/react": "^18.2.74",
+		"@types/react-test-renderer": "^18.0.7",
+		"@typescript-eslint/eslint-plugin": "^7.5.0",
+		"@typescript-eslint/parser": "^7.5.0",
+		"eslint": "^9.0.0",
+		"eslint-plugin-react": "^7.34.1",
+		"eslint-plugin-react-native": "^4.1.0",
+		"typescript": "^5.4.4"
+	},
+	"private": true,
+	"description": "a simple discussion tool",
+	"author": "MdyTrl <thorelmandy@gmail.com>",
+	"license": "MIT"
 }
