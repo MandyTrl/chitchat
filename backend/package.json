@@ -1,0 +1,14 @@
+{
+	"name": "chitchat-backend",
+	"version": "1.0.0",
+	"description": "backend for chitchat app",
+	"main": "app.js",
+	"author": "MdyTrl",
+	"license": "MIT",
+	"scripts": {
+		"start": " node app.js"
+	},
+	"dependencies": {
+		"express": "^4.19.2"
+	}
+}
