@@ -1,19 +1,18 @@
 import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { StyleSheet, Text, ScrollView, Button, View, Image } from "react-native"
-// import { Input } from "@components/Input"
+import { Input } from "@components/Input"
 
 export const HomeScreen = () => {
 	return (
 		<ScrollView contentContainerStyle={styles.container}>
 			<Image
-				source={require("../assets/chitchatlogo.png")}
+				source={require("../assets/chitchatlogo.gif")}
 				style={styles.logo}
 			/>
 			<Text style={styles.title}>ChitChat</Text>
 
-			<Text style={styles.label}>Pseudo</Text>
-			{/* <Input /> */}
+			<Input />
 			<StatusBar style="auto" />
 		</ScrollView>
 	)
@@ -25,6 +24,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ffe5d9",
 		alignItems: "center",
 		justifyContent: "center",
+		paddingHorizontal: 40,
 	},
 	title: {
 		fontSize: 32,
@@ -36,12 +36,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		borderRadius: 20,
 		marginTop: 8,
-	},
-	label: {
-		fontSize: 20,
-		fontWeight: "600",
-		color: "#004AAD",
-		marginTop: 40,
 	},
 	logo: {
 		width: "100%",
