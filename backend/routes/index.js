@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+var express = require("express")
+var router = express.Router()
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get("/", function (req, res, next) {
+	res.status(200).send("Connexion API OK")
 
-module.exports = router;
+	/* affiche la vue index.js. */
+	res.render("index", { title: "Express" })
+})
+
+module.exports = router
