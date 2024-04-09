@@ -1,7 +1,7 @@
 import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { StyleSheet, Text, ScrollView, Button, View, Image } from "react-native"
-import { Input } from "@components/Input"
+// import { Input } from "@components/Input"
 
 export const HomeScreen = () => {
 	return (
@@ -13,7 +13,7 @@ export const HomeScreen = () => {
 			<Text style={styles.title}>ChitChat</Text>
 
 			<Text style={styles.label}>Pseudo</Text>
-			<Input />
+			{/* <Input /> */}
 			<StatusBar style="auto" />
 		</ScrollView>
 	)
