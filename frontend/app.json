@@ -20,10 +20,16 @@
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#ffffff"
-			}
+			},
+			"permissions": ["INTERNET"]
 		},
 		"web": {
-			"favicon": "./assets/favicon.png"
+			"favicon": "./assets/favicon.png",
+			"bundler": "metro",
+			"output": "server"
+		},
+		"extra": {
+			"proxy": "http://172.21.62.178:3333"
 		}
 	}
 }
