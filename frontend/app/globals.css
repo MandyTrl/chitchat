@@ -8,4 +8,5 @@
 body {
 	background-image: url("../public/assets/bg.svg");
 	background-size: cover;
+	background-position: 55% 25%;
 }

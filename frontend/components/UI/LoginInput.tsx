@@ -5,12 +5,12 @@ import { IoArrowForwardSharp } from "react-icons/io5"
 import { UserContext } from "@/context/index"
 import Link from "next/link"
 
-export const Input = () => {
+export const LoginInput = () => {
 	const userCtxt = useContext(UserContext)
 
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
-	const hasCorrectValue = value.length >= 5
+	const hasCorrectValue = value.length >= 3
 
 	const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value.replace(/\s/g, ""))
@@ -29,7 +29,7 @@ export const Input = () => {
 							: isFocused
 							? "border-amber-400 shadow-inner"
 							: "border-transparent",
-						"flex items-center rounded-full mt-2 px-[6px] py-1 bg-amber-100/60 border"
+						"flex items-center rounded-full mt-2 px-[6px] py-1 bg-amber-100/60 border-2"
 					)}
 					onClick={() => setIsFocused(true)}
 					onMouseLeave={() => setIsFocused(false)}>
@@ -39,7 +39,7 @@ export const Input = () => {
 						placeholder="Choose a pseudo"
 						type="text"
 						required
-						minLength={5}
+						minLength={3}
 						onClick={() => setIsFocused(true)}
 						onMouseLeave={() => setIsFocused(false)}
 						onChange={(e) => handleFocus(e)}

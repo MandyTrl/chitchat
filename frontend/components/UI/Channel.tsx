@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { channel } from "../../utils/channels"
-import { IoChatboxEllipsesOutline } from "react-icons/io5"
 
 type ChannelProps = {
 	key: number

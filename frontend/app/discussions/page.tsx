@@ -1,11 +1,39 @@
 "use client"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
+import socketIOClient from "socket.io-client"
 import { UserContext } from "@/context"
 import { Channel } from "@/components/UI/Channel"
 import { channels, channel } from "@/utils/channels"
 
 export default function Discussions() {
 	const userCtxt = useContext(UserContext)
+	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
+	const socket = socketIOClient(backUrl)
+	const [socketUserConnection, setSocketUserConnection] = useState<any>(null)
+
+	const connectSocket = () => {
+		setSocketUserConnection(socket)
+		socket.emit("connection", () => {
+			socket.id
+		})
+	}
+
+	const disconnectSocket = () => {
+		if (socketUserConnection) {
+			socketUserConnection.emit("disconnect", () => {
+				socket.id
+			})
+			setSocketUserConnection(null)
+		}
+	}
+
+	useEffect(() => {
+		connectSocket()
+
+		return () => {
+			disconnectSocket()
+		}
+	}, [socketUserConnection])
 
 	return (
 		<main className="w-full">
