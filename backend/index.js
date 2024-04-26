@@ -32,16 +32,33 @@ app.use((req, res, next) => {
 	next()
 })
 
+let connectedUsers = {}
+const clearConnectedUsers = () => {
+	connectedUsers = {}
+}
+
 socketIO.on("connection", (socket) => {
-	console.log(`⚡ | u s e r | ${socket.id} | just connected !`)
+	console.log(`😃 ) u s e r connected | ${socket.id} |`)
+	connectedUsers[socket.id] = socket
+
+	socket.on("disconnect", () => {
+		console.log(`🥸  ) u s e r disconnected | ${socket.id} |`)
+		delete connectedUsers[socket.id]
+	})
+
+	socket.on("msgSended", (message) => {
+		console.log(socket.id, message)
+	})
 })
 
-socketIO.on("disconnect", (socket) => {
-	console.log(`🔥 | u s e r | ${socket.id} | disconnected`)
+process.on("SIGINT", () => {
+	clearConnectedUsers()
+	process.exit()
 })
 
-socketIO.on("msgSended", function (socket, message) {
-	console.log(socket.id, message)
+process.on("SIGTERM", () => {
+	clearConnectedUsers()
+	process.exit()
 })
 
 app.get("/", (req, res) => {

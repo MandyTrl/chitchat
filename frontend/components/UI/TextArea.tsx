@@ -16,8 +16,8 @@ export const TextArea = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		socket.emit("msgSended", socket.id, value)
-		setValue("") // Clear the input field after sending the message
+		// socket.emit("msgSended", socket.id, value)
+		setValue("")
 	}
 
 	// `from ${userCtxt.username} :
