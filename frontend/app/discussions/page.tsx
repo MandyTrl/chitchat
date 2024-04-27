@@ -1,17 +1,28 @@
 "use client"
-import { useContext } from "react"
-import { UserContext } from "@/context"
+import React, { useEffect, useState } from "react"
+import Cookies from "js-cookie"
+import { Navbar } from "@/components/Navigation/Navbar"
 import { Channel } from "@/components/UI/Channel"
 import { channels, channel } from "@/utils/channels"
 
 export default function Discussions() {
-	const userCtxt = useContext(UserContext)
+	const [pseudo, setPseudo] = useState<string>("")
+
+	useEffect(() => {
+		const userCookie = Cookies.get("user")
+		if (userCookie) {
+			const userData = JSON.parse(userCookie)
+			setPseudo(userData.name)
+		}
+	}, [])
 
 	return (
 		<main className="w-full">
+			<Navbar />
+
 			<p className="text-lg">
 				<span className="text-xl">👋 </span>
-				{userCtxt.username}
+				{pseudo}
 			</p>
 
 			<div className="w-full mt-4">

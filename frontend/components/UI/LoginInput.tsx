@@ -1,5 +1,6 @@
 "use client"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Cookies from "js-cookie"
 import socketIOClient, { Socket } from "socket.io-client"
@@ -10,6 +11,7 @@ import { UserContext } from "@/context/index"
 export const LoginInput = () => {
 	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
 	const userCtxt = useContext(UserContext)
+	const router = useRouter()
 
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -29,8 +31,6 @@ export const LoginInput = () => {
 		})
 	}
 
-	useEffect(() => {}, [socketId])
-
 	// const disconnectSocket = () => {
 	// 	const socket = socketIOClient(backUrl)
 
@@ -47,8 +47,6 @@ export const LoginInput = () => {
 			| React.FormEvent<HTMLFormElement>
 			| React.MouseEvent<HTMLAnchorElement, MouseEvent>
 	) => {
-		e.preventDefault()
-
 		if (!socketId) {
 			connectSocket()
 		}
@@ -58,6 +56,8 @@ export const LoginInput = () => {
 		})
 
 		userCtxt.setUsername(value)
+
+		router.push(`/discussions`)
 	}
 
 	const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +72,7 @@ export const LoginInput = () => {
 	}
 
 	return (
-		<form onSubmit={(e) => handleSubmit(e)}>
+		<form onSubmit={handleSubmit}>
 			<label className="flex flex-col items-center justify-center">
 				What&apos;s your name ?
 				<div
@@ -96,7 +96,7 @@ export const LoginInput = () => {
 						onClick={() => setIsFocused(true)}
 						onMouseLeave={() => setIsFocused(false)}
 						onChange={(e) => handleFocus(e)}
-						onKeyDown={(e) => handleKeyPress(e)}
+						onKeyUp={(e) => handleKeyPress(e)}
 						className="group px-2 py-1 bg-transparent focus:outline-0"
 					/>
 

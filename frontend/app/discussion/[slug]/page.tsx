@@ -1,5 +1,6 @@
 "use client"
 import { usePathname } from "next/navigation"
+import { Navbar } from "@/components/Navigation/Navbar"
 import { TextArea } from "@/components/UI/TextArea"
 
 export default function Discussion() {
@@ -8,6 +9,8 @@ export default function Discussion() {
 
 	return (
 		<main className="w-full h-screen">
+			<Navbar />
+
 			<div id="discussion__title" className="text-center">
 				<p>Here, we discuss on </p>
 
