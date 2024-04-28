@@ -1,6 +1,6 @@
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
-import { CiSettings, CiLogout } from "react-icons/ci"
+import { CiHome, CiSettings, CiLogout } from "react-icons/ci"
 
 export const Navbar = () => {
 	const router = useRouter()
@@ -11,9 +11,13 @@ export const Navbar = () => {
 	}
 
 	return (
-		<nav className="w-full flex items-center justify-end py-1 px-2 text-3xl text-slate-700">
-			<CiSettings className="hover:text-amber-600" />
-			<CiLogout className="hover:text-red-500" onClick={logout} />
+		<nav className="w-full flex items-center justify-between p-3 mb-4 text-3xl text-amber-100 bg-amber-500/90 rounded-lg shadow-sm ">
+			<CiHome className="hover:text-slate-800" />
+
+			<div className="flex items-center space-x-2">
+				<CiSettings className="hover:text-slate-800" />
+				<CiLogout onClick={logout} className="hover:text-slate-800" />
+			</div>
 		</nav>
 	)
 }

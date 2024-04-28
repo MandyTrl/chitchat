@@ -20,13 +20,15 @@ export default function Discussions() {
 		<main className="w-full">
 			<Navbar />
 
-			<p className="text-lg">
-				<span className="text-xl">👋 </span>
+			<p className="text-xl my-8 text-left ml-1">
+				<span className="text-2xl">👋</span>
 				{pseudo}
 			</p>
 
-			<div className="w-full mt-4">
-				<p className="text-sm">Enter on a discussion or create a new channel</p>
+			<div className="w-full">
+				<p className="text-sm ml-1">
+					Enter on a discussion or create a new channel
+				</p>
 
 				<div
 					id="channel__list"

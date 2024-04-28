@@ -22,8 +22,6 @@ export const LoginInput = () => {
 		const socket: Socket = socketIOClient(backUrl)
 
 		socket.on("connect", () => {
-			console.log("socket id dans connect socket", socket.id)
-
 			setSocketId(socket.id ?? null)
 
 			//envoie du socket.id au serveur
@@ -67,6 +65,8 @@ export const LoginInput = () => {
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter" && hasCorrectValue) {
+			e.preventDefault()
+
 			handleSubmit(e)
 		}
 	}
@@ -96,7 +96,7 @@ export const LoginInput = () => {
 						onClick={() => setIsFocused(true)}
 						onMouseLeave={() => setIsFocused(false)}
 						onChange={(e) => handleFocus(e)}
-						onKeyUp={(e) => handleKeyPress(e)}
+						onKeyDown={(e) => handleKeyPress(e)}
 						className="group px-2 py-1 bg-transparent focus:outline-0"
 					/>
 
