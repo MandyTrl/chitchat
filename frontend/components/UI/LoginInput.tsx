@@ -16,42 +16,26 @@ export const LoginInput = () => {
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const hasCorrectValue = value.length >= 3
-	const [socketId, setSocketId] = useState<string | null>(null)
 
 	const connectSocket = () => {
 		const socket: Socket = socketIOClient(backUrl)
 
 		socket.on("connect", () => {
-			setSocketId(socket.id ?? null)
+			Cookies.set(
+				"user",
+				JSON.stringify({ name: value, socketId: socket.id ?? null }),
+				{
+					expires: 7,
+				}
+			)
 
 			//envoie du socket.id au serveur
-			socket.emit("connection", socketId)
+			socket.emit("connection", socket.id)
 		})
 	}
 
-	// const disconnectSocket = () => {
-	// 	const socket = socketIOClient(backUrl)
-
-	// 	if (socketId) {
-	// 		socket.emit("disconnect", () => {
-	// 			socket.id
-	// 		})
-	// 		setSocketId(null)
-	// 	}
-	// }
-	const handleSubmit = (
-		e:
-			| React.KeyboardEvent<HTMLInputElement>
-			| React.FormEvent<HTMLFormElement>
-			| React.MouseEvent<HTMLAnchorElement, MouseEvent>
-	) => {
-		if (!socketId) {
-			connectSocket()
-		}
-
-		Cookies.set("user", JSON.stringify({ name: value, socketId }), {
-			expires: 7,
-		})
+	const handleSubmit = () => {
+		connectSocket()
 
 		userCtxt.setUsername(value)
 
@@ -67,7 +51,7 @@ export const LoginInput = () => {
 		if (e.key === "Enter" && hasCorrectValue) {
 			e.preventDefault()
 
-			handleSubmit(e)
+			handleSubmit()
 		}
 	}
 
@@ -102,7 +86,7 @@ export const LoginInput = () => {
 
 					<Link
 						href={hasCorrectValue ? "/discussions" : ""}
-						onClick={(e) => handleSubmit(e)}>
+						onClick={handleSubmit}>
 						<IoArrowForwardSharp
 							className={clsx(
 								hasCorrectValue

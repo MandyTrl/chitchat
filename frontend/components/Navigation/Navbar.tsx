@@ -9,6 +9,17 @@ export const Navbar = () => {
 	const router = useRouter()
 	const [pseudo, setPseudo] = useState<string>("")
 
+	// const disconnectSocket = () => {
+	// 	const socket = socketIOClient(backUrl)
+
+	// 	if (socketId) {
+	// 		socket.emit("disconnect", () => {
+	// 			socket.id
+	// 		})
+	// 		setSocketId(null)
+	// 	}
+	// }
+
 	useEffect(() => {
 		const userCookie = Cookies.get("user")
 		if (userCookie) {

@@ -5,7 +5,7 @@ const cors = require("cors")
 const app = express()
 const port = 3333
 const httpServer = createServer(app)
-const socketIO = new Server(httpServer, {
+const socketIo = new Server(httpServer, {
 	cors: {
 		origin: "http://localhost:3000",
 		methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -37,7 +37,7 @@ const clearConnectedUsers = () => {
 	connectedUsers = {}
 }
 
-socketIO.on("connection", (socket) => {
+socketIo.on("connection", (socket) => {
 	console.log(`😃 ) u s e r connected | ${socket.id} |`)
 	connectedUsers[socket.id] = socket
 
@@ -46,8 +46,58 @@ socketIO.on("connection", (socket) => {
 		delete connectedUsers[socket.id]
 	})
 
-	socket.on("msgSended", (message) => {
-		console.log(socket.id, message)
+	socket.on("msgSendedtechnologies", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChanneltechnologies", message)
+	})
+
+	socket.on("msgSendeddesign", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChanneldesign", message)
+	})
+
+	socket.on("msgSendedhealth", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelhealth", message)
+	})
+
+	socket.on("msgSendedsport", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelsport", message)
+	})
+
+	socket.on("msgSendedlifestyle", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannellifestyle", message)
+	})
+
+	socket.on("msgSendedfood", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelsportfood", message)
+	})
+
+	socket.on("msgSendedrelationship", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelrelationship", message)
+	})
+	socket.on("msgSendedcinema", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelcinema", message)
+	})
+
+	socket.on("msgSendedread", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelread", message)
+	})
+
+	socket.on("msgSendedart", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelart", message)
+	})
+
+	socket.on("msgSendedboardgame", (socketId, message) => {
+		console.log(socketId, message)
+		socketIo.emit("msgFromChannelboardgame", message)
 	})
 })
 
