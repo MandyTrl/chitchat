@@ -51,7 +51,7 @@ export default function Discussion() {
 
 			<div
 				id="discussion__container"
-				className="w-full h-4/5 rounded-sm bg-amber-100/70 p-2 mt-2 shadow-sm">
+				className="w-full h-4/5 rounded-sm bg-amber-100/70 p-2 mt-2 shadow-sm overflow-y-scroll">
 				{msg}
 			</div>
 

@@ -19,9 +19,9 @@ export const TextArea = ({
 	socketId,
 	setAction,
 }: TextAreaPropsType) => {
+	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
 	const [message, setMessage] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
-	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setMessage(e.target.value)
