@@ -1,6 +1,6 @@
 "use client"
 import React, { Dispatch, SetStateAction, useState } from "react"
-import socketIOClient, { Socket } from "socket.io-client"
+import { Socket } from "socket.io-client"
 import { IoArrowForwardSharp } from "react-icons/io5"
 import clsx from "clsx"
 
@@ -9,7 +9,6 @@ type TextAreaPropsType = {
 	channel: string
 	username: string | null
 	socketId: string | null
-	setAction: Dispatch<SetStateAction<boolean>>
 }
 
 export const TextArea = ({
@@ -17,27 +16,26 @@ export const TextArea = ({
 	channel,
 	username,
 	socketId,
-	setAction,
 }: TextAreaPropsType) => {
-	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
-	const [message, setMessage] = useState<string>("")
+	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setMessage(e.target.value)
+		setValue(e.target.value)
 	}
 
 	const sendSocketMsg = () => {
-		socketConnexion.emit(`msgSended${channel}`, socketId, message)
-		setAction(true)
+		socketConnexion.emit(`msgSended${channel}`, {
+			socketId,
+			user: username,
+			message: value,
+		})
 	}
-
-	// `from ${userCtxt.username} :
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		sendSocketMsg()
-		setMessage("")
+		value !== "" && sendSocketMsg()
+		setValue("")
 	}
 
 	return (
@@ -47,7 +45,7 @@ export const TextArea = ({
 			className="w-full h-fit flex items-center justify-between rounded-xl bg-amber-100/70 p-2 mt-2 shadow-sm">
 			<textarea
 				name="message"
-				value={message}
+				value={value}
 				placeholder="Message"
 				rows={1}
 				onClick={() => setIsFocused(true)}

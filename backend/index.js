@@ -5,7 +5,7 @@ const cors = require("cors")
 const app = express()
 const port = 3333
 const httpServer = createServer(app)
-const socketIo = new Server(httpServer, {
+const io = new Server(httpServer, {
 	cors: {
 		origin: "http://localhost:3000",
 		methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -32,83 +32,84 @@ app.use((req, res, next) => {
 	next()
 })
 
-let connectedUsers = {}
-const clearConnectedUsers = () => {
-	connectedUsers = {}
-}
+io.use((socket, next) => {
+	const token = socket.handshake.auth.token
+	const username = socket.handshake.auth.username
 
-socketIo.on("connection", (socket) => {
-	console.log(`😃 ) u s e r connected | ${socket.id} |`)
-	connectedUsers[socket.id] = socket
+	if (token && username) {
+		console.log(`Authentication successful for user: ${username}`)
+
+		return next()
+	} else {
+		console.log(`Authentication failed`)
+
+		return next(new Error("Authentication failed."))
+	}
+})
+
+io.on("connection", (socket) => {
+	console.log(
+		`😃 a user is connected ${socket.handshake.auth.token} , ${socket.handshake.auth.username}`
+	)
 
 	socket.on("disconnect", () => {
-		console.log(`🥸  ) u s e r disconnected | ${socket.id} |`)
-		delete connectedUsers[socket.id]
+		console.log(`🥸 a user is disconnected`)
 	})
 
-	socket.on("msgSendedtechnologies", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChanneltechnologies", message)
+	socket.on("msgSendedtechnologies", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChanneltechnologies", { user, message })
 	})
 
-	socket.on("msgSendeddesign", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChanneldesign", message)
+	socket.on("msgSendeddesign", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChanneldesign", { user, message })
 	})
 
-	socket.on("msgSendedhealth", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelhealth", message)
+	socket.on("msgSendedhealth", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelhealth", { user, message })
 	})
 
-	socket.on("msgSendedsport", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelsport", message)
+	socket.on("msgSendedsport", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelsport", { user, message })
 	})
 
-	socket.on("msgSendedlifestyle", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannellifestyle", message)
+	socket.on("msgSendedlifestyle", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannellifestyle", { user, message })
 	})
 
-	socket.on("msgSendedfood", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelsportfood", message)
+	socket.on("msgSendedfood", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelsportfood", { user, message })
 	})
 
-	socket.on("msgSendedrelationship", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelrelationship", message)
-	})
-	socket.on("msgSendedcinema", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelcinema", message)
+	socket.on("msgSendedrelationship", ({ socketId, user, message }) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelrelationship", { user, message })
 	})
 
-	socket.on("msgSendedread", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelread", message)
+	socket.on("msgSendedcinema", (socketId, user, message) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelcinema", user, message)
 	})
 
-	socket.on("msgSendedart", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelart", message)
+	socket.on("msgSendedread", (socketId, user, message) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelread", user, message)
 	})
 
-	socket.on("msgSendedboardgame", (socketId, message) => {
-		console.log(socketId, message)
-		socketIo.emit("msgFromChannelboardgame", message)
+	socket.on("msgSendedart", (socketId, user, message) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelart", user, message)
 	})
-})
 
-process.on("SIGINT", () => {
-	clearConnectedUsers()
-	process.exit()
-})
-
-process.on("SIGTERM", () => {
-	clearConnectedUsers()
-	process.exit()
+	socket.on("msgSendedboardgame", (socketId, user, message) => {
+		console.log(socketId, user, message)
+		io.emit("msgFromChannelboardgame", message)
+	})
 })
 
 app.get("/", (req, res) => {

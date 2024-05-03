@@ -1,15 +1,15 @@
 "use client"
+import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
-import socketIOClient, { Socket } from "socket.io-client"
 import Cookies from "js-cookie"
+import { useWebSocket } from "@/context/SocketProvider"
 import { Navbar } from "@/components/Navigation/Navbar"
 import { TextArea } from "@/components/UI/TextArea"
-import { useEffect, useState } from "react"
 
 export default function Discussion() {
-	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
-	const socket: Socket = socketIOClient(backUrl)
+	const socket = useWebSocket()
 	const userCookie = Cookies.get("user")
+	const sessionID = localStorage.getItem("sessionID")
 
 	const pathname = usePathname()
 	const channel = pathname.split("/")[2].replace(/%20/g, " ")
@@ -17,27 +17,29 @@ export default function Discussion() {
 
 	const [socketId, setSocketId] = useState<string | null>(null)
 	const [username, setUsername] = useState<string | null>(null)
-	const [newMsgHasBeenSent, setNewMsgHasBeenSent] = useState<boolean>(false)
 	const [msg, setMsg] = useState<string>("")
 
 	useEffect(() => {
-		if (userCookie) {
-			const userData = JSON.parse(userCookie)
-			setUsername(userData.username)
-			setSocketId(userData.socketId)
+		// if (userCookie) {
+		// 	const userData = JSON.parse(userCookie)
+		// 	setUsername(userData.name)
+		// 	setSocketId(userData.socketId)
+		// }
+
+		if (sessionID) {
+			socket.auth = { sessionID }
+			socket.connect()
 		}
 
-		socket.on(`msgFromChannel${socketChannel}`, (newMsg) => {
-			console.log("coucou", newMsg)
-
-			setMsg(newMsg)
-			setNewMsgHasBeenSent(false)
+		socket.on(`msgFromChannel${socketChannel}`, ({ user, message }) => {
+			console.log("coucou", user, message)
+			setMsg(`${user} : ${message}`)
 		})
 
 		return () => {
 			socket.off(`msgFromChannel${socketChannel}`)
 		}
-	}, [newMsgHasBeenSent, msg, socketChannel])
+	}, [msg, socketChannel])
 
 	return (
 		<main className="w-full h-screen">
@@ -52,7 +54,9 @@ export default function Discussion() {
 			<div
 				id="discussion__container"
 				className="w-full h-4/5 rounded-sm bg-amber-100/70 p-2 mt-2 shadow-sm overflow-y-scroll">
-				{msg}
+				{msg !== "" && (
+					<p className="bg-white/80 py-1 px-2 rounded-md">{msg}</p>
+				)}
 			</div>
 
 			<TextArea
@@ -60,7 +64,6 @@ export default function Discussion() {
 				channel={channel}
 				socketId={socketId}
 				username={username}
-				setAction={setNewMsgHasBeenSent}
 			/>
 		</main>
 	)

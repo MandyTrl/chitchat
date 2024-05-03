@@ -2,42 +2,42 @@
 import React, { useContext, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import Cookies from "js-cookie"
 import socketIOClient, { Socket } from "socket.io-client"
+import Cookies from "js-cookie"
 import clsx from "clsx"
 import { IoArrowForwardSharp } from "react-icons/io5"
-import { UserContext } from "@/context/index"
+import { useWebSocket } from "@/context/SocketProvider"
+import { UserContext } from "@/context/UserProvider"
 
 export const LoginInput = () => {
-	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
-	const userCtxt = useContext(UserContext)
 	const router = useRouter()
+	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
+	const socket: Socket = socketIOClient(backUrl)
+	const { setUsername } = useContext(UserContext)
 
 	const [value, setValue] = useState<string>("")
+	const [token, setToken] = useState<string | null>(null)
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const hasCorrectValue = value.length >= 3
 
 	const connectSocket = () => {
-		const socket: Socket = socketIOClient(backUrl)
+		socket.once("connect", () => {
+			if (socket.id && value) {
+				const token = `${socket.id} | ${value}`
+				setToken(token)
 
-		socket.on("connect", () => {
-			Cookies.set(
-				"user",
-				JSON.stringify({ name: value, socketId: socket.id ?? null }),
-				{
+				Cookies.set("user", JSON.stringify({ name: value, token }), {
 					expires: 7,
-				}
-			)
+				})
 
-			//envoie du socket.id au serveur
-			socket.emit("connection", socket.id)
+				socket.emit("auth", { token: token, username: value })
+			}
 		})
 	}
-
 	const handleSubmit = () => {
 		connectSocket()
 
-		userCtxt.setUsername(value)
+		setUsername(value)
 
 		router.push(`/discussions`)
 	}

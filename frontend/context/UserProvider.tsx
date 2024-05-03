@@ -1,9 +1,18 @@
-import React, { useState, ReactNode } from "react"
-import { UserContext } from "./index"
+import React, { useState, ReactNode, createContext } from "react"
+
+type UserContextType = {
+	username: string
+	setUsername: (username: string) => void
+}
 
 type UserProviderProps = {
 	children: ReactNode
 }
+
+export const UserContext = createContext<UserContextType>({
+	username: "",
+	setUsername: () => {},
+})
 
 export const UserProvider = ({ children }: UserProviderProps) => {
 	const [username, setUsername] = useState<string>("")
