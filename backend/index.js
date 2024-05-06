@@ -36,6 +36,8 @@ io.use((socket, next) => {
 	const token = socket.handshake.auth.token
 	const username = socket.handshake.auth.username
 
+	console.log("in back", token, username)
+
 	if (token && username) {
 		console.log(`Authentication successful for user: ${username}`)
 
@@ -53,7 +55,7 @@ io.on("connection", (socket) => {
 	)
 
 	socket.on("disconnect", () => {
-		console.log(`🥸 a user is disconnected`)
+		console.log(`🥸  a user is disconnected`)
 	})
 
 	socket.on("msgSendedtechnologies", ({ socketId, user, message }) => {
