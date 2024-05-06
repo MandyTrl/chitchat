@@ -1,29 +1,8 @@
-"use client"
-import React, { useEffect, useState } from "react"
-import socketIOClient, { Socket } from "socket.io-client"
-import Cookies from "js-cookie"
 import { Navbar } from "@/components/Navigation/Navbar"
 import { Channel } from "@/components/UI/Channel"
 import { channels, channel } from "@/utils/channels"
-import { UserCookiesType } from "@/components/UI/LoginInput"
 
 export default function Discussions() {
-	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
-	const cookiesRaw = Cookies.get("user")
-	const userCookie: UserCookiesType | undefined = cookiesRaw
-		? JSON.parse(cookiesRaw)
-		: undefined
-
-	useEffect(() => {
-		if (userCookie) {
-			const socket: Socket = socketIOClient(backUrl, {
-				auth: { token: userCookie.token, username: userCookie.name },
-			})
-
-			socket.once("connect", () => {})
-		}
-	}, [userCookie])
-
 	return (
 		<main className="w-full">
 			<Navbar />

@@ -1,43 +1,22 @@
 "use client"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
-import Cookies from "js-cookie"
-import { useWebSocket } from "@/context/SocketProvider"
 import { Navbar } from "@/components/Navigation/Navbar"
 import { TextArea } from "@/components/UI/TextArea"
+import { useWebSocket } from "@/utils/hooks/useWebSocket"
 
 export default function Discussion() {
-	const socket = useWebSocket()
-	const userCookie = Cookies.get("user")
-	const sessionID = localStorage.getItem("sessionID")
-
 	const pathname = usePathname()
+	const { socket, username } = useWebSocket()
 	const channel = pathname.split("/")[2].replace(/%20/g, " ")
 	const socketChannel = channel === "board game" ? "boardgame" : channel
-
-	const [socketId, setSocketId] = useState<string | null>(null)
-	const [username, setUsername] = useState<string | null>(null)
 	const [msg, setMsg] = useState<string>("")
 
 	useEffect(() => {
-		// if (userCookie) {
-		// 	const userData = JSON.parse(userCookie)
-		// 	setUsername(userData.name)
-		// 	setSocketId(userData.socketId)
-		// }
-
-		if (sessionID) {
-			socket.auth = { sessionID }
-			socket.connect()
-		}
-
-		socket.on(`msgFromChannel${socketChannel}`, ({ user, message }) => {
-			console.log("coucou", user, message)
-			setMsg(`${user} : ${message}`)
-		})
-
-		return () => {
-			socket.off(`msgFromChannel${socketChannel}`)
+		if (socket) {
+			socket.once(`msgFromChannel${socketChannel}`, ({ user, message }) => {
+				setMsg(`${user} : ${msg}`)
+			})
 		}
 	}, [msg, socketChannel])
 
@@ -62,7 +41,6 @@ export default function Discussion() {
 			<TextArea
 				socketConnexion={socket}
 				channel={channel}
-				socketId={socketId}
 				username={username}
 			/>
 		</main>

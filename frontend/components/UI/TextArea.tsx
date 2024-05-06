@@ -5,17 +5,15 @@ import { IoArrowForwardSharp } from "react-icons/io5"
 import clsx from "clsx"
 
 type TextAreaPropsType = {
-	socketConnexion: Socket
+	socketConnexion: Socket | null
 	channel: string
 	username: string | null
-	socketId: string | null
 }
 
 export const TextArea = ({
 	socketConnexion,
 	channel,
 	username,
-	socketId,
 }: TextAreaPropsType) => {
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
@@ -25,11 +23,11 @@ export const TextArea = ({
 	}
 
 	const sendSocketMsg = () => {
-		socketConnexion.emit(`msgSended${channel}`, {
-			socketId,
-			user: username,
-			message: value,
-		})
+		socketConnexion &&
+			socketConnexion.emit(`msgSended${channel}`, {
+				user: username,
+				message: value,
+			})
 	}
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
