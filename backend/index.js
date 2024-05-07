@@ -3,6 +3,10 @@ const { createServer } = require("http")
 const { Server } = require("socket.io")
 const cors = require("cors")
 const app = express()
+
+const channelsRoutes = require("./routes/channels.js")
+const messagesRoutes = require("./routes/messages.js")
+
 const port = 3333
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
@@ -31,6 +35,12 @@ app.use((req, res, next) => {
 	)
 	next()
 })
+
+//CHANNELS'S ROUTES ENDPOINT
+app.use("/api/channels", channelsRoutes)
+
+//MESSAGES'S ROUTES ENDPOINT
+// app.use("/api/messages", messagesRoutes)
 
 io.use((socket, next) => {
 	const token = socket.handshake.auth.token

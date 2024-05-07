@@ -1,0 +1,46 @@
+[
+	{
+		"id": 1,
+		"name": "technologies"
+	},
+	{
+		"id": 2,
+		"name": "design"
+	},
+	{
+		"id": 3,
+		"name": "health"
+	},
+	{
+		"id": 4,
+		"name": "sport"
+	},
+	{
+		"id": 5,
+		"name": "lifestyle"
+	},
+	{
+		"id": 6,
+		"name": "food"
+	},
+	{
+		"id": 7,
+		"name": "relationship"
+	},
+	{
+		"id": 8,
+		"name": "cinema"
+	},
+	{
+		"id": 9,
+		"name": "read"
+	},
+	{
+		"id": 10,
+		"name": "art"
+	},
+	{
+		"id": 11,
+		"name": "boardgame"
+	}
+]
