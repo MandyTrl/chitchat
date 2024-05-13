@@ -92,7 +92,7 @@ io.on("connection", (socket) => {
 
 	socket.on("msgSendedfood", ({ socketId, user, message }) => {
 		console.log(socketId, user, message)
-		io.emit("msgFromChannelsportfood", { user, message })
+		io.emit("msgFromChannelfood", { user, message })
 	})
 
 	socket.on("msgSendedrelationship", ({ socketId, user, message }) => {

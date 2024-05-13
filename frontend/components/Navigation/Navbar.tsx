@@ -36,7 +36,7 @@ export const Navbar = () => {
 	}
 
 	return (
-		<nav className="w-full flex items-center justify-between p-2 mb-8 text-slate-800 bg-white">
+		<nav className="w-full flex items-center justify-between p-2 mb-8 text-slate-800 bg-transparent">
 			<p className="text-lg">
 				<span className="text-xl">👋</span>
 				{pseudo}
