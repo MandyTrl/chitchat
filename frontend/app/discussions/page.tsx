@@ -1,8 +1,32 @@
+"use client"
+import { useState, useEffect } from "react"
 import { Navbar } from "@/components/Navigation/Navbar"
-import { Channel } from "@/components/UI/Channel"
-import { channels, channel } from "@/utils/channels"
+import { Chan } from "@/components/UI/Chan"
+
+export type Channel = {
+	id: number
+	name: string
+	lastMsg: string | null
+	updateTo: Date | null
+}
 
 export default function Discussions() {
+	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
+	const [channels, setChannels] = useState<Channel[] | []>([])
+	const [isLoading, setLoading] = useState(true)
+
+	const fetchChannels = () => {
+		fetch(`${backUrl}api/channels`)
+			.then((res) => res.json())
+			.then((data) => {
+				setChannels(data)
+				setLoading(false)
+			})
+	}
+	useEffect(() => {
+		fetchChannels()
+	}, [channels, isLoading])
+
 	return (
 		<main className="w-full">
 			<Navbar />
@@ -15,9 +39,13 @@ export default function Discussions() {
 				<div
 					id="channel__list"
 					className="rounded-lg bg-amber-100/70 p-2 mt-2 shadow-sm">
-					{channels.map((channel: channel, idx: number) => {
-						return <Channel key={idx} channel={channel} />
-					})}
+					{isLoading ? (
+						<div>..is loading, be patient</div>
+					) : (
+						channels.map((channel: Channel, idx: number) => {
+							return <Chan key={idx} channel={channel} />
+						})
+					)}
 				</div>
 			</div>
 		</main>

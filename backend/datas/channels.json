@@ -1,46 +1,68 @@
 [
 	{
 		"id": 1,
-		"name": "technologies"
+		"name": "technologies",
+		"lastMsg": "test",
+		"updateTo": null
 	},
 	{
 		"id": 2,
-		"name": "design"
+		"name": "design",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 3,
-		"name": "health"
+		"name": "health",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 4,
-		"name": "sport"
+		"name": "sport",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 5,
-		"name": "lifestyle"
+		"name": "lifestyle",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 6,
-		"name": "food"
+		"name": "food",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 7,
-		"name": "relationship"
+		"name": "relationship",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 8,
-		"name": "cinema"
+		"name": "cinema",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 9,
-		"name": "read"
+		"name": "read",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 10,
-		"name": "art"
+		"name": "art",
+		"lastMsg": null,
+		"updateTo": null
 	},
 	{
 		"id": 11,
-		"name": "boardgame"
+		"name": "boardgame",
+		"lastMsg": null,
+		"updateTo": null
 	}
 ]

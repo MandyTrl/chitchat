@@ -24,7 +24,7 @@ export const useWebSocket = () => {
 			setUsername(userCookie.name)
 			socket.once("connect", () => {})
 		}
-	}, [])
+	}, [cookiesRaw, userCookie, username])
 
 	return { socket, username }
 }

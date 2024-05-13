@@ -14,16 +14,15 @@ export default function Discussion() {
 	const pathname = usePathname()
 	const { socket, username } = useWebSocket()
 	const channel = pathname.split("/")[2].replace(/%20/g, " ")
-	const socketChannel = channel === "board game" ? "boardgame" : channel
 	const [messages, setMessages] = useState<MsgType[]>([])
 
 	useEffect(() => {
 		if (socket) {
-			socket.once(`msgFromChannel${socketChannel}`, ({ user, message }) => {
+			socket.once(`msgFromChannel${channel}`, ({ user, message }) => {
 				setMessages([...messages, { username: user, msg: message }])
 			})
 		}
-	}, [messages, socketChannel])
+	}, [messages, channel])
 
 	return (
 		<main className="w-full h-screen">
