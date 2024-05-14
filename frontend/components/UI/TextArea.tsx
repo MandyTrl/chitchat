@@ -3,6 +3,7 @@ import React, { Dispatch, SetStateAction, useState } from "react"
 import { Socket } from "socket.io-client"
 import { IoArrowForwardSharp } from "react-icons/io5"
 import clsx from "clsx"
+import { useDate, Date } from "@/utils/hooks/useDate"
 
 type TextAreaPropsType = {
 	socketConnexion: Socket | null
@@ -15,6 +16,7 @@ export const TextArea = ({
 	channel,
 	username,
 }: TextAreaPropsType) => {
+	const currentDate = useDate()
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 
@@ -27,6 +29,7 @@ export const TextArea = ({
 			socketConnexion.emit(`msgSended${channel}`, {
 				user: username,
 				message: value,
+				date: currentDate,
 			})
 	}
 
@@ -40,7 +43,7 @@ export const TextArea = ({
 		<form
 			id="discussion__input"
 			onSubmit={handleSubmit}
-			className="w-full h-fit flex items-center justify-between rounded-xl bg-amber-100/70 p-2 mt-2 shadow-sm">
+			className="w-full h-fit flex items-center justify-between rounded-xl bg-amber-100 p-2 mt-2 shadow-sm">
 			<textarea
 				name="message"
 				value={value}

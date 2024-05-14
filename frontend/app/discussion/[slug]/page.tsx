@@ -5,41 +5,46 @@ import clsx from "clsx"
 import { Navbar } from "@/components/Navigation/Navbar"
 import { TextArea } from "@/components/UI/TextArea"
 import { useWebSocket } from "@/utils/hooks/useWebSocket"
+import { Date } from "@/utils/hooks/useDate"
 
-export type MsgType = {
+export type Message = {
 	username: string
 	msg: string
+	dateMsg: Date
 }
 
 export default function Discussion() {
 	const pathname = usePathname()
 	const { socket, username } = useWebSocket()
 	const channel = pathname.split("/")[2].replace(/%20/g, " ")
-	const [messages, setMessages] = useState<MsgType[]>([])
+	const [messages, setMessages] = useState<Message[]>([])
 
 	useEffect(() => {
 		if (socket) {
-			socket.once(`msgFromChannel${channel}`, ({ user, message }) => {
-				setMessages([...messages, { username: user, msg: message }])
+			socket.once(`msgFromChannel${channel}`, ({ user, message, date }) => {
+				setMessages([
+					...messages,
+					{ username: user, msg: message, dateMsg: date },
+				])
 			})
 		}
 	}, [messages, channel])
 
 	return (
-		<main className="w-full h-screen">
+		<main className="w-full h-screen flex flex-col p-4">
 			<Navbar />
 
-			<div id="discussion__title" className="text-center">
+			<div id="discussion__title" className="flex flex-col w-full text-center">
 				<p>Here, we discuss on </p>
 
-				<h1 className="uppercase font-semibold text-amber-500">{channel}</h1>
+				<h1 className="uppercase font-semibold text-[#FBBF24]">{channel}</h1>
 			</div>
 
 			<div
 				id="discussion__container"
-				className="w-full h-4/5 rounded-sm bg-amber-100/70 p-2 mt-2 shadow-sm overflow-y-scroll">
+				className="flex flex-col w-full grow rounded-sm bg-amber-100 p-2 mt-2 shadow-sm overflow-y-scroll">
 				{messages.length !== 0 &&
-					messages.map((el: MsgType, idx: number) => {
+					messages.map((el: Message, idx: number) => {
 						const isMe = el.username === username
 						const isFirstMsg = idx === 0
 						const differentUser =
@@ -48,17 +53,31 @@ export default function Discussion() {
 						return (
 							<div
 								key={idx}
-								className={clsx(isMe ? "text-right" : "text-left", "mx-2")}>
+								className={clsx(
+									isMe ? "self-end text-right" : "text-left",
+									"max-w-4/5 w-fit mx-2"
+								)}>
 								{(isFirstMsg || differentUser) && (
-									<p className="font-semibold  mb-1">{el.username}</p>
+									<p
+										id="discussion__username"
+										className="font-semibold text-sm tracking-wider mb-1">
+										{isMe ? "You" : el.username}
+									</p>
 								)}
 								<p
+									id="discussion__message"
 									className={clsx(
-										isMe ? "bg-white/80" : "bg-amber-100",
+										isMe ? "bg-yellow-500/30" : "bg-white/80",
 										differentUser ? "my-0" : "my-1",
 										"py-1 px-2 rounded-md"
 									)}>
 									{el.msg}
+								</p>
+
+								<p
+									id="discussion__date"
+									className="text-xs self-center text-slate-700">
+									{el.dateMsg.date}
 								</p>
 							</div>
 						)

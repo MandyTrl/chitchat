@@ -65,9 +65,9 @@ io.on("connection", (socket) => {
 		console.log(`🥸  @${socket.handshake.auth.username} is disconnected`)
 	})
 
-	socket.on("msgSendedtechnologies", ({ socketId, user, message }) => {
-		console.log(socketId, user, message)
-		io.emit("msgFromChanneltechnologies", { user, message })
+	socket.on("msgSendedtechnologies", ({ socketId, user, message, date }) => {
+		console.log(socketId, user, message, date)
+		io.emit("msgFromChanneltechnologies", { user, message, date })
 	})
 
 	socket.on("msgSendeddesign", ({ socketId, user, message }) => {

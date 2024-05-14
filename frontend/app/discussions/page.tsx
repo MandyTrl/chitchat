@@ -28,7 +28,7 @@ export default function Discussions() {
 	}, [channels, isLoading])
 
 	return (
-		<main className="w-full">
+		<main className="w-full h-full p-4">
 			<Navbar />
 
 			<div className="w-full">
@@ -38,7 +38,7 @@ export default function Discussions() {
 
 				<div
 					id="channel__list"
-					className="rounded-lg bg-amber-100/70 p-2 mt-2 shadow-sm">
+					className="rounded-lg bg-amber-100 p-2 mt-2 shadow-sm">
 					{isLoading ? (
 						<div>..is loading, be patient</div>
 					) : (
