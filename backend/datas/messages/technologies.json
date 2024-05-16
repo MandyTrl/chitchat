@@ -1,0 +1,77 @@
+[
+	{
+		"username": "Stefen",
+		"msg": "Hi everyone, have you seen the news about React 19 ?",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Mathew",
+		"msg": "Yes, apparently useMemo is dead 🤯 !",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Yuval",
+		"msg": "But no, incredible!",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Mathew",
+		"msg": "Yes, they have managed to create a React compiler to avoid doing it manually. ",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Yuval",
+		"msg": "Top, I'll go to their site to see all the new features !",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Alicia",
+		"msg": "Hi! I also saw that it would be possible to create component servers! Next wouldn't be of any use after all? ",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Stefen",
+		"msg": "In fact, I think I'll go back to pure React when I see that it's so easy to make a server... As with Next, all you need is a 'use server'!",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Alicia",
+		"msg": "I understand, I'm thinking of going back to basics myself, given these last news !",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Yuval",
+		"msg": "Did you see the Action section? I'm having a little trouble understanding.",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Alicia",
+		"msg": "So it seems to me that it allows you to submit a form whether it's server-side or client-side.",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Yuval",
+		"msg": "Ah I see, I wasn't too far away, thank you 🙂",
+		"dateMsg": "14 mai 2024"
+	},
+	{
+		"username": "Jirô",
+		"msg": "Hi, do you know when it's scheduled ?",
+		"dateMsg": "15 mai 2024"
+	},
+	{
+		"username": "Stefen",
+		"msg": "It's in beta version, but I think you can already test it :)",
+		"dateMsg": "15 mai 2024"
+	},
+	{
+		"username": "Jirô",
+		"msg": "Okay, thanks! Can't wait to use the new “use” hook!",
+		"dateMsg": "15 mai 2024"
+	},
+	{
+		"username": "Jirô",
+		"msg": "This looks like a complete way of managing forms. I might want to remove React Hook Form :)",
+		"dateMsg": "15 mai 2024"
+	}
+]

@@ -14,20 +14,27 @@ export type Message = {
 }
 
 export default function Discussion() {
+	const backUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`
 	const pathname = usePathname()
 	const { socket, username } = useWebSocket()
 	const channel = pathname.split("/")[2].replace(/%20/g, " ")
 	const [messages, setMessages] = useState<Message[]>([])
 
 	useEffect(() => {
-		if (socket) {
-			socket.once(`msgFromChannel${channel}`, ({ user, message, date }) => {
-				setMessages([
-					...messages,
-					{ username: user, msg: message, dateMsg: date },
-				])
+		fetch(`${backUrl}api/messages/${channel}`)
+			.then((res) => res.json())
+			.then((messages) => {
+				setMessages(messages)
 			})
-		}
+
+		// if (socket) {
+		// 	socket.once(`msgFromChannel${channel}`, ({ message }) => {
+		// 		setMessages([
+		// 			...messages,
+		// 			{ username: message.user, msg: message.msg, dateMsg: message.date },
+		// 		])
+		// 	})
+		// }
 	}, [messages, channel])
 
 	return (
@@ -55,7 +62,7 @@ export default function Discussion() {
 								key={idx}
 								className={clsx(
 									isMe ? "self-end text-right" : "text-left",
-									"max-w-4/5 w-fit mx-2"
+									"max-w-4/5 w-fit m-2"
 								)}>
 								{(isFirstMsg || differentUser) && (
 									<p

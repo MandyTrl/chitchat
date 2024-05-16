@@ -27,9 +27,7 @@ export const TextArea = ({
 	const sendSocketMsg = () => {
 		socketConnexion &&
 			socketConnexion.emit(`msgSended${channel}`, {
-				user: username,
-				message: value,
-				date: currentDate,
+				message: { username: username, msg: value, date: currentDate },
 			})
 	}
 
