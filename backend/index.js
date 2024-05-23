@@ -66,7 +66,9 @@ io.on("connection", (socket) => {
 	)
 
 	socket.on("disconnect", () => {
-		console.log(`🥸  @${socket.handshake.auth.username} is disconnected`)
+		console.log(
+			`🥸  @${socket.handshake.auth.username} is disconnected | token: ${socket.handshake.auth.token}`
+		)
 	})
 
 	channels.map((channel) => {

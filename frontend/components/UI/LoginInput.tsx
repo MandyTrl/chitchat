@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Cookies from "js-cookie"
+import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 import { IoArrowForwardSharp } from "react-icons/io5"
 import { UserContext } from "@/context/UserProvider"
@@ -16,12 +17,11 @@ export const LoginInput = () => {
 	const router = useRouter()
 	const { setUsername } = useContext(UserContext)
 	const [value, setValue] = useState<string>("")
-	const [token, setToken] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const hasCorrectValue = value.length >= 3
 
 	const setCookies = () => {
-		Cookies.set("user", JSON.stringify({ name: value, token }), {
+		Cookies.set("user", JSON.stringify({ name: value, token: uuidv4() }), {
 			expires: 7,
 		})
 	}
@@ -34,7 +34,6 @@ export const LoginInput = () => {
 
 	const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(e.target.value.replace(/\s/g, ""))
-		setToken(`hello | ${value}`)
 		setIsFocused(true)
 	}
 

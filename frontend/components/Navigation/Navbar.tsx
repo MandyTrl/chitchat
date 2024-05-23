@@ -4,24 +4,20 @@ import Cookies from "js-cookie"
 import clsx from "clsx"
 import { FaCat } from "react-icons/fa"
 import { CiHome, CiSettings, CiLogout } from "react-icons/ci"
+import { useWebSocket } from "@/utils/hooks/useWebSocket"
 
 export const Navbar = () => {
 	const router = useRouter()
 	const pathname = usePathname()
+	const { socket } = useWebSocket()
 
-	// const disconnectSocket = () => {
-	// 	const socket = socketIOClient(backUrl)
-
-	// 	if (socketId) {
-	// 		socket.emit("disconnect", () => {
-	// 			socket.id
-	// 		})
-	// 		setSocketId(null)
-	// 	}
-	// }
+	const disconnectSocket = () => {
+		socket && socket.once("disconnect", () => {})
+	}
 
 	const logout = () => {
 		router.push(`/`)
+		disconnectSocket()
 		Cookies.remove("user")
 	}
 
@@ -54,4 +50,10 @@ export const Navbar = () => {
 			</div>
 		</nav>
 	)
+}
+function socketIOClient(
+	backUrl: any,
+	arg1: { auth: { token: any; username: any } }
+) {
+	throw new Error("Function not implemented.")
 }
