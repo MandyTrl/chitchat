@@ -71,79 +71,49 @@ io.on("connection", (socket) => {
 		)
 	})
 
+	// augmente la limite de listeners
+	socket.setMaxListeners(channels.length + 5)
+
 	channels.map((channel) => {
-		socket.on(`msgSended${channel.name}`, ({ socketId, message }) => {
-			console.log(socketId, message.username, message.msg, message.date)
-			const channelFilePath = path.join("datas", "messages", `${channel}.json`)
+		socket.on(`msgSended${channel.name}`, ({ message }) => {
+			const channelFilePath = path.join(
+				"datas",
+				"messages",
+				`${channel.name}.json`
+			)
 
-			// const msg = JSON.parse(message)
-
-			// réécris le fichier JSON avec le contenu mis à jour
-			fs.writeFile(channelFilePath, JSON.stringify(message), (err) => {
+			// lire le fichier JSON existant avant d'écrire dessus
+			fs.readFile(channelFilePath, "utf8", (err, data) => {
 				if (err) {
-					console.error("Erreur lors de l'écriture du fichier JSON :", err)
-					res.status(500).json({ error: "Erreur lors de l'ajout du message." })
-					return
+					console.error("Erreur lors de la lecture du fichier JSON :", err)
 				}
 
-				res.json({ success: true })
+				let messages = []
+				if (data) {
+					messages = JSON.parse(data)
+				}
+
+				// ajoute le nouveau message à la liste des messages
+				messages.push(message)
+
+				// ré-écris dans le fichier
+				fs.writeFile(
+					channelFilePath,
+					JSON.stringify(messages, null, 2),
+					(err, res) => {
+						if (err) {
+							console.error("Erreur lors de l'écriture du fichier JSON :", err)
+							return
+						}
+
+						res.json({ success: true })
+					}
+				)
 			})
 
-			// io.emit(`msgFromChannel${channel.name}`, { user, message, date })
+			// io.emit(`msgFromChannel${channel}`, { user, message, date })
 		})
 	})
-
-	// socket.on("msgSendeddesign", ({ socketId, user, message }) => {
-	// 	console.log(socketId, user, message)
-	// 	const channelFilePath = path.join("datas", "messages", `${channel}.json`)
-
-	// 	io.emit("msgFromChanneldesign", { user, message })
-	// })
-
-	// socket.on("msgSendedhealth", ({ socketId, user, message }) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelhealth", { user, message })
-	// })
-
-	// socket.on("msgSendedsport", ({ socketId, user, message }) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelsport", { user, message })
-	// })
-
-	// socket.on("msgSendedlifestyle", ({ socketId, user, message }) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannellifestyle", { user, message })
-	// })
-
-	// socket.on("msgSendedfood", ({ socketId, user, message }) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelfood", { user, message })
-	// })
-
-	// socket.on("msgSendedrelationship", ({ socketId, user, message }) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelrelationship", { user, message })
-	// })
-
-	// socket.on("msgSendedcinema", (socketId, user, message) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelcinema", user, message)
-	// })
-
-	// socket.on("msgSendedread", (socketId, user, message) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelread", user, message)
-	// })
-
-	// socket.on("msgSendedart", (socketId, user, message) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelart", user, message)
-	// })
-
-	// socket.on("msgSendedboardgame", (socketId, user, message) => {
-	// 	console.log(socketId, user, message)
-	// 	io.emit("msgFromChannelboardgame", message)
-	// })
 })
 
 app.get("/", (req, res) => {

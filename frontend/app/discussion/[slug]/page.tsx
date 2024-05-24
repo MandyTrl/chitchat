@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
 import { Navbar } from "@/components/Navigation/Navbar"
@@ -20,12 +21,16 @@ export default function Discussion() {
 	const channel = pathname.split("/")[2].replace(/%20/g, " ")
 	const [messages, setMessages] = useState<Message[]>([])
 
-	useEffect(() => {
+	const fetchMessages = useCallback(() => {
 		fetch(`${backUrl}api/messages/${channel}`)
 			.then((res) => res.json())
 			.then((messages) => {
 				setMessages(messages)
 			})
+	}, [])
+
+	useEffect(() => {
+		fetchMessages()
 
 		// if (socket) {
 		// 	socket.once(`msgFromChannel${channel}`, ({ message }) => {
@@ -35,7 +40,7 @@ export default function Discussion() {
 		// 		])
 		// 	})
 		// }
-	}, [messages, channel])
+	}, [fetchMessages])
 
 	return (
 		<main className="w-full h-screen flex flex-col p-4">
@@ -95,6 +100,7 @@ export default function Discussion() {
 				socketConnexion={socket}
 				channel={channel}
 				username={username}
+				onMessageSent={fetchMessages}
 			/>
 		</main>
 	)

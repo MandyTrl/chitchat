@@ -9,12 +9,14 @@ type TextAreaPropsType = {
 	socketConnexion: Socket | null
 	channel: string
 	username: string | null
+	onMessageSent: () => void
 }
 
 export const TextArea = ({
 	socketConnexion,
 	channel,
 	username,
+	onMessageSent,
 }: TextAreaPropsType) => {
 	const currentDate = useDate()
 	const [value, setValue] = useState<string>("")
@@ -25,10 +27,12 @@ export const TextArea = ({
 	}
 
 	const sendSocketMsg = () => {
-		socketConnexion &&
+		if (socketConnexion) {
 			socketConnexion.emit(`msgSended${channel}`, {
-				message: { username: username, msg: value, date: currentDate },
+				message: { username: username, msg: value, dateMsg: currentDate },
 			})
+			onMessageSent()
+		}
 	}
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,6 +62,7 @@ export const TextArea = ({
 					!isFocused ? "opacity-0" : "opacity-100",
 					"w-fit bg-white/80 text-amber-400 rounded-full p-1 text-3xl"
 				)}
+				type="submit"
 				onClick={() => handleSubmit}>
 				<IoArrowForwardSharp className="text-xl" />
 			</button>

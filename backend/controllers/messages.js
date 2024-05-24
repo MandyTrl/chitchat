@@ -16,7 +16,7 @@ exports.getMessagesFromChannel = (req, res) => {
 			return
 		}
 
-		// envoi des données JSON en réponse
+		// envoi les données JSON en réponse
 		res.json(JSON.parse(data))
 	})
 }

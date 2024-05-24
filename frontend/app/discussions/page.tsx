@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 import { useState, useEffect } from "react"
 import { Navbar } from "@/components/Navigation/Navbar"
@@ -25,7 +26,7 @@ export default function Discussions() {
 	}
 	useEffect(() => {
 		fetchChannels()
-	}, [channels, isLoading])
+	}, [])
 
 	return (
 		<main className="w-full h-full p-4">

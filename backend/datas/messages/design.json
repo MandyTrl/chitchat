@@ -3,5 +3,13 @@
 		"username": "Mandy",
 		"msg": "Do you know the Designer Daily Report website? I find a lot of ideas for my creative projects.",
 		"dateMsg": "24 mai 2024"
+	},
+	{
+		"username": "Austin",
+		"msg": "Yes, I think it's great. I find good ideas in the Figma Picks section.",
+		"dateMsg": {
+			"date": "24 mai 2024",
+			"time": "16h01"
+		}
 	}
 ]
