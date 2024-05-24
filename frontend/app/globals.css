@@ -10,3 +10,9 @@
 	background-size: cover;
 	background-position: 80%;
 }
+
+/* display style when autofill is selected */
+input:-webkit-autofill,
+input:-internal-autofill-selected {
+	transition: background-color 0s 600000s, color 0s 600000s !important;
+}

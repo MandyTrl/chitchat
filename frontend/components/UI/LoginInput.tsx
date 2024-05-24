@@ -71,7 +71,7 @@ export const LoginInput = () => {
 						onMouseLeave={() => setIsFocused(false)}
 						onChange={(e) => handleFocus(e)}
 						onKeyDown={(e) => handleKeyPress(e)}
-						className="group px-2 py-1 bg-transparent focus:outline-0"
+						className="auto__fill__input group px-2 py-1 bg-transparent focus:outline-0"
 					/>
 
 					<Link
