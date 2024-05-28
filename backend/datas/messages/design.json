@@ -2,14 +2,11 @@
 	{
 		"username": "Mandy",
 		"msg": "Do you know the Designer Daily Report website? I find a lot of ideas for my creative projects.",
-		"dateMsg": "24 mai 2024"
+		"date": "2024-05-28T09:18:43.025Z"
 	},
 	{
 		"username": "Austin",
 		"msg": "Yes, I think it's great. I find good ideas in the Figma Picks section.",
-		"dateMsg": {
-			"date": "24 mai 2024",
-			"time": "16h01"
-		}
+		"date": "2024-05-28T14:10:09.025Z"
 	}
 ]
