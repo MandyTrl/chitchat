@@ -18,7 +18,11 @@ export const Chan = ({ channel }: ChannelProps) => {
 				<p className="text-slate-800 capitalize">{channelName}</p>
 			</div>
 
-			<p className="ml-4 text-sm text-gray-500 italic">{channel.lastMsg}</p>
+			{channel.lastMsg && (
+				<p className="ml-4 text-sm text-gray-500 italic line-clamp-1">
+					&quot;{channel.lastMsg}&quot;
+				</p>
+			)}
 		</Link>
 	)
 }

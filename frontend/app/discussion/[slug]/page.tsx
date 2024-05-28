@@ -81,7 +81,7 @@ export default function Discussion() {
 						const displayDate = isYesterday ? "Yesterday" : el.date.fulldate
 
 						return (
-							<div key={idx} className="w-full">
+							<div key={idx} className="flex flex-col w-full">
 								<div
 									className={clsx(
 										isMe ? "self-end text-right" : "text-left",

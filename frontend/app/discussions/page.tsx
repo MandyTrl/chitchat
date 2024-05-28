@@ -24,6 +24,7 @@ export default function Discussions() {
 				setLoading(false)
 			})
 	}
+
 	useEffect(() => {
 		fetchChannels()
 	}, [])

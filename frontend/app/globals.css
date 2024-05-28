@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-}
-
 #login {
 	background-image: url("../public/assets/bg.svg");
 	background-size: cover;

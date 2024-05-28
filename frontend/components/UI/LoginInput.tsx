@@ -6,7 +6,6 @@ import Cookies from "js-cookie"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 import { IoArrowForwardSharp } from "react-icons/io5"
-import { UserContext } from "@/context/UserProvider"
 
 export type UserCookiesType = {
 	name: string
@@ -15,7 +14,6 @@ export type UserCookiesType = {
 
 export const LoginInput = () => {
 	const router = useRouter()
-	const { setUsername } = useContext(UserContext)
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
 	const hasCorrectValue = value.length >= 3
@@ -27,7 +25,6 @@ export const LoginInput = () => {
 	}
 
 	const handleSubmit = () => {
-		setUsername(value)
 		setCookies()
 		router.push(`/discussions`)
 	}

@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { FaCat } from "react-icons/fa"
 import { LoginInput } from "@/components/UI/LoginInput"
 

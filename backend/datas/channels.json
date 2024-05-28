@@ -2,13 +2,13 @@
 	{
 		"id": 1,
 		"name": "technologies",
-		"lastMsg": "test",
+		"lastMsg": "This looks like a complete way of managing forms. I might want to remove React Hook Form :)",
 		"updateTo": null
 	},
 	{
 		"id": 2,
 		"name": "design",
-		"lastMsg": null,
+		"lastMsg": "Yes, I think it's great. I find good ideas in the Figma Picks section.",
 		"updateTo": null
 	},
 	{

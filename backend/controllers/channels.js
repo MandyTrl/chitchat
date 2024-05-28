@@ -1,4 +1,5 @@
 const fs = require("fs") // module intégré à node qui permet de lire et d'écrire des fichiers
+const path = require("path") // module intégré à node qui permet de faire des action sur les chemins des fichiers
 
 exports.addChannel = async (req, res) => {
 	try {
@@ -42,5 +43,70 @@ exports.getChannels = (req, res) => {
 		}
 
 		res.status(200).json(JSON.parse(data))
+	})
+}
+
+//mets à jour les derniers messages dans le fichier "channels"
+exports.updateLastMsgInChannelList = (channelName) => {
+	const channelFilePath = path.join("datas", "messages", `${channelName}.json`)
+
+	let lastMessage = ""
+
+	fs.readFile(channelFilePath, "utf8", (err, data) => {
+		if (err) {
+			console.error("Erreur lors de la lecture du fichier JSON du canal :", err)
+			return
+		}
+
+		let channelMessages = []
+		if (data) {
+			channelMessages = JSON.parse(data)
+		}
+
+		lastMessage = channelMessages[channelMessages.length - 1].msg
+
+		updateChannelsJson(channelName, lastMessage)
+	})
+}
+
+const updateChannelsJson = (channelName, lastMessage) => {
+	const channelListFilePath = path.join("datas", "channels.json")
+
+	fs.readFile(channelListFilePath, "utf8", (err, data) => {
+		if (err) {
+			console.error("Erreur lors de la lecture du fichier channels.json :", err)
+			return
+		}
+
+		let channelsData = []
+		if (data) {
+			channelsData = JSON.parse(data)
+		}
+
+		const updatedChannelsData = channelsData.map((chan) => {
+			if (chan.name === channelName) {
+				return {
+					...chan,
+					lastMsg: lastMessage !== "" ? lastMessage : null,
+				}
+			}
+			return chan
+		})
+
+		fs.writeFile(
+			channelListFilePath,
+			JSON.stringify(updatedChannelsData, null, 2),
+			(err) => {
+				if (err) {
+					console.error(
+						"Erreur lors de la mise à jour du fichier channels.json :",
+						err
+					)
+					return
+				}
+
+				console.log("Le fichier channels.json a été mis à jour avec succès.")
+			}
+		)
 	})
 }

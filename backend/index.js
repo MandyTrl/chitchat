@@ -4,8 +4,9 @@ const { Server } = require("socket.io")
 const cors = require("cors")
 const app = express()
 
-const fs = require("fs")
-const path = require("path")
+const { updateMessages } = require("./controllers/messages.js")
+const { updateLastMsgInChannelList } = require("./controllers/channels.js")
+
 const channels = require("./datas/channels.json")
 
 const channelsRoutes = require("./routes/channels.js")
@@ -71,45 +72,13 @@ io.on("connection", (socket) => {
 		)
 	})
 
-	// augmente la limite de listeners
+	//augmente la limite de listeners
 	socket.setMaxListeners(channels.length + 5)
 
 	channels.map((channel) => {
 		socket.on(`msgSended${channel.name}`, ({ message }) => {
-			const channelFilePath = path.join(
-				"datas",
-				"messages",
-				`${channel.name}.json`
-			)
-
-			// lire le fichier JSON existant avant d'écrire dessus
-			fs.readFile(channelFilePath, "utf8", (err, data) => {
-				if (err) {
-					console.error("Erreur lors de la lecture du fichier JSON :", err)
-				}
-
-				let messages = []
-				if (data) {
-					messages = JSON.parse(data)
-				}
-
-				// ajoute le nouveau message à la liste des messages
-				messages.push(message)
-
-				// ré-écris dans le fichier
-				fs.writeFile(
-					channelFilePath,
-					JSON.stringify(messages, null, 2),
-					(err, res) => {
-						if (err) {
-							console.error("Erreur lors de l'écriture du fichier JSON :", err)
-							return
-						}
-
-						res.json({ success: true })
-					}
-				)
-			})
+			updateMessages(channel.name, message)
+			updateLastMsgInChannelList(channel.name)
 
 			// io.emit(`msgFromChannel${channel}`, { user, message, date })
 		})
