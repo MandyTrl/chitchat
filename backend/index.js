@@ -76,12 +76,16 @@ io.on("connection", (socket) => {
 	socket.setMaxListeners(channels.length + 5)
 
 	channels.map((channel) => {
-		socket.on(`msgSended${channel.name}`, ({ message }) => {
-			updateMessages(channel.name, message)
-			updateLastMsgInChannelList(channel.name)
+		socket.on(`msgSended${channel.name}`, async ({ message }) => {
+			await updateMessages(channel.name, message)
+			await updateLastMsgInChannelList(channel.name)
 
 			// io.emit(`msgFromChannel${channel}`, { user, message, date })
 		})
+	})
+
+	socket.on("typing", (data) => {
+		socket.broadcast.emit("typingResponse", data)
 	})
 })
 

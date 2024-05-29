@@ -1,8 +1,10 @@
 "use client"
 import React, { Dispatch, SetStateAction, useState } from "react"
 import { Socket } from "socket.io-client"
-import { IoArrowForwardSharp } from "react-icons/io5"
+import Cookies from "js-cookie"
 import clsx from "clsx"
+import { IoArrowForwardSharp } from "react-icons/io5"
+import { UserCookiesType } from "./LoginInput"
 
 type TextAreaPropsType = {
 	socketConnexion: Socket | null
@@ -17,13 +19,30 @@ export const TextArea = ({
 	username,
 	onMessageSent,
 }: TextAreaPropsType) => {
+	const cookiesRaw = Cookies.get("user")
+	const userCookie: UserCookiesType = cookiesRaw && JSON.parse(cookiesRaw)
 	const [value, setValue] = useState<string>("")
 	const [isFocused, setIsFocused] = useState<boolean>(false)
+	const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(
+		null
+	)
 
-	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setValue(e.target.value)
+	const handleTyping = () => {
+		if (socketConnexion) {
+			socketConnexion.emit("typing", `${userCookie.name} is typing..`)
+
+			if (typingTimeout) {
+				clearTimeout(typingTimeout)
+			}
+
+			//handle when user is not typing after 6s
+			const timeout = setTimeout(() => {
+				socketConnexion.emit("typing", "")
+			}, 6000)
+
+			setTypingTimeout(timeout)
+		}
 	}
-
 	const sendSocketMsg = () => {
 		if (socketConnexion) {
 			socketConnexion.emit(`msgSended${channel}`, {
@@ -55,7 +74,10 @@ export const TextArea = ({
 				rows={1}
 				onClick={() => setIsFocused(true)}
 				onMouseLeave={() => setIsFocused(false)}
-				onChange={handleChange}
+				onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
+					setValue(e.target.value)
+				}
+				onKeyUp={handleTyping}
 				className="w-full group px-2 py-1 bg-transparent focus:outline-0"
 			/>
 
